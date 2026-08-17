@@ -86,70 +86,39 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   window.addEventListener('scroll', highlightNavLink, { passive: true });
 
-  // 5. Contact Form Submission Handling (FormSubmit API)
+  // 5. Contact Form Submission Handling (mailto: direct email)
   const contactForm = document.getElementById('contact-form') || document.querySelector('.contact-form');
   const formFeedback = document.getElementById('form-feedback');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm && formFeedback) {
-    contactForm.addEventListener('submit', async (e) => {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send Message';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span>Sending...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
-      }
+      const name = document.getElementById('contact-name')?.value.trim() || '';
+      const email = document.getElementById('contact-email')?.value.trim() || '';
+      const subject = document.getElementById('contact-subject')?.value.trim() || 'Portfolio Inquiry';
+      const message = document.getElementById('contact-message')?.value.trim() || '';
 
-      formFeedback.style.display = 'none';
+      const emailSubject = `[Portfolio] ${subject} - from ${name}`;
+      const emailBody = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
 
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
+      const mailtoUrl = `mailto:erikadelfin944@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-      // Set unique subject so Gmail never collapses messages into old threads
-      data._subject = `[Portfolio] ${data.name || 'New Message'} - ${data.subject || 'Inquiry'}`;
-      data._template = 'box';
-      data._replyto = data.email;
+      // Show feedback
+      formFeedback.className = 'form-feedback success';
+      formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Opening your email client to send the message...';
+      formFeedback.style.display = 'block';
 
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/erikadelfin944@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
+      // Launch email client
+      window.location.href = mailtoUrl;
 
-        const result = await response.json();
+      // Reset form
+      contactForm.reset();
 
-        if (response.ok && (result.success === 'true' || result.success === true)) {
-          contactForm.reset();
-          formFeedback.className = 'form-feedback success';
-          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent directly to Erika\'s email.';
-          formFeedback.style.display = 'block';
-        } else if (result.message && result.message.includes('Activation')) {
-          formFeedback.className = 'form-feedback success';
-          formFeedback.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> <strong>Activation email sent:</strong> FormSubmit sent an activation link to <strong>erikadelfin944@gmail.com</strong>. Please check your inbox or spam folder and click <em>Activate Form</em>.';
-          formFeedback.style.display = 'block';
-        } else {
-          throw new Error(result.message || 'Submission failed');
-        }
-      } catch (error) {
-        console.error('Contact Form Error:', error);
-        formFeedback.className = 'form-feedback error';
-        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Oops! Something went wrong. Please email directly at <a href="mailto:erikadelfin944@gmail.com" style="text-decoration: underline; color: inherit;">erikadelfin944@gmail.com</a>.';
-        formFeedback.style.display = 'block';
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
-        }
-
-        setTimeout(() => {
-          formFeedback.style.display = 'none';
-        }, 10000);
-      }
+      setTimeout(() => {
+        formFeedback.style.display = 'none';
+      }, 8000);
     });
   }
 
