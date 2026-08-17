@@ -86,13 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   window.addEventListener('scroll', highlightNavLink, { passive: true });
 
-  // 5. Contact Form Submission Handling
-  const contactForm = document.querySelector('.contact-form') || document.querySelector('form');
+  // 5. Contact Form Submission Handling (FormSubmit API)
+  const contactForm = document.getElementById('contact-form') || document.querySelector('.contact-form');
   const formFeedback = document.getElementById('form-feedback');
   const submitBtn = document.getElementById('submit-btn');
 
   if (contactForm && formFeedback) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Send Message';
@@ -101,12 +101,35 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = '<span>Sending...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
       }
 
-      setTimeout(() => {
-        contactForm.reset();
-        formFeedback.className = 'form-feedback success';
-        formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent successfully.';
-        formFeedback.style.display = 'block';
+      formFeedback.style.display = 'none';
 
+      const formData = new FormData(contactForm);
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/erikadelfin944@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json'
+          },
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          contactForm.reset();
+          formFeedback.className = 'form-feedback success';
+          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent to Erika\'s email.';
+          formFeedback.style.display = 'block';
+        } else {
+          throw new Error(result.message || 'Submission failed');
+        }
+      } catch (error) {
+        console.error('Contact Form Error:', error);
+        formFeedback.className = 'form-feedback error';
+        formFeedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Oops! Something went wrong. Please email directly at <a href="mailto:erikadelfin944@gmail.com" style="text-decoration: underline; color: inherit;">erikadelfin944@gmail.com</a>.';
+        formFeedback.style.display = 'block';
+      } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnText;
@@ -114,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
           formFeedback.style.display = 'none';
-        }, 5000);
-      }, 800);
+        }, 7000);
+      }
     });
   }
 
