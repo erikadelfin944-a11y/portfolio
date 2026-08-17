@@ -104,22 +104,28 @@ document.addEventListener('DOMContentLoaded', () => {
       formFeedback.style.display = 'none';
 
       const formData = new FormData(contactForm);
+      const data = Object.fromEntries(formData);
 
       try {
         const response = await fetch('https://formsubmit.co/ajax/erikadelfin944@gmail.com', {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: formData
+          body: JSON.stringify(data)
         });
 
         const result = await response.json();
 
-        if (response.ok) {
+        if (response.ok && (result.success === 'true' || result.success === true)) {
           contactForm.reset();
           formFeedback.className = 'form-feedback success';
-          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent to Erika\'s email.';
+          formFeedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent directly to Erika\'s email.';
+          formFeedback.style.display = 'block';
+        } else if (result.message && result.message.includes('Activation')) {
+          formFeedback.className = 'form-feedback success';
+          formFeedback.innerHTML = '<i class="fa-solid fa-envelope-circle-check"></i> <strong>Activation email sent:</strong> FormSubmit sent an activation link to <strong>erikadelfin944@gmail.com</strong>. Please check your inbox or spam folder and click <em>Activate Form</em>.';
           formFeedback.style.display = 'block';
         } else {
           throw new Error(result.message || 'Submission failed');
@@ -137,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
           formFeedback.style.display = 'none';
-        }, 7000);
+        }, 10000);
       }
     });
   }
