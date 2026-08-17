@@ -106,6 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData);
 
+      // Set unique subject so Gmail never collapses messages into old threads
+      data._subject = `[Portfolio] ${data.name || 'New Message'} - ${data.subject || 'Inquiry'}`;
+      data._template = 'box';
+      data._replyto = data.email;
+
       try {
         const response = await fetch('https://formsubmit.co/ajax/erikadelfin944@gmail.com', {
           method: 'POST',
