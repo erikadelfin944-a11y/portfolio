@@ -2,631 +2,388 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erika | Web Developer &amp; BSIT Student</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Era Shell & Trash Gralat Calculator</title>
   <meta name="description"
-    content="Portfolio of Erika E. Delfin - BSIT Student, Aspiring Web Developer &amp; Tech Enthusiast building responsive, modern websites.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    content="Calculate your Era shell and trash earnings, total Gralats, and Trochus conversion instantly with live calculation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="form.css">
-  <script src="back.js" defer></script>
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Header / Navigation Bar -->
-  <header class="header" id="header">
-    <div class="nav-container">
-      <a href="#hero" class="nav-logo" id="nav-logo">
-        <span class="logo-accent">&lt;</span>Erika<span class="logo-accent">/&gt;</span>
-      </a>
+  <div class="background-glow top-left"></div>
+  <div class="background-glow bottom-right"></div>
+  <div class="background-glow center-amber"></div>
 
-      <nav class="nav-menu" id="nav-menu">
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a></li>
-          <li class="nav-item"><a href="#about" class="nav-link"><i class="fa-solid fa-user"></i> About</a></li>
-          <li class="nav-item"><a href="#skills" class="nav-link"><i class="fa-solid fa-code"></i> Skills</a></li>
-          <li class="nav-item"><a href="#projects" class="nav-link"><i class="fa-solid fa-laptop-code"></i> Projects</a>
-          </li>
-          <li class="nav-item"><a href="#contact" class="nav-link"><i class="fa-solid fa-paper-plane"></i> Contact</a>
-          </li>
-        </ul>
+  <main class="calculator-wrapper">
+    <header class="calc-header">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Era Multi-Counter</span>
+      </div>
+      <h1 class="title" id="pageTitle">Era Calculator</h1>
+      <p class="subtitle" id="pageSubtitle">Calculate shell & trash earnings and convert directly to Trochus.</p>
+
+      <!-- Category Navigation Tabs -->
+      <nav class="calc-nav" role="tablist" aria-label="Calculator Modes">
+        <button type="button" class="nav-tab active" id="tabShells" role="tab" aria-selected="true"
+          aria-controls="sectionShells">
+          <span class="tab-icon">🐚</span>
+          <span class="tab-label">Shells</span>
+        </button>
+        <button type="button" class="nav-tab" id="tabTrash" role="tab" aria-selected="false"
+          aria-controls="sectionTrash">
+          <span class="tab-icon">🗑️</span>
+          <span class="tab-label">Trash</span>
+        </button>
+        <button type="button" class="nav-tab" id="tabBoth" role="tab" aria-selected="false">
+          <span class="tab-icon">⚡</span>
+          <span class="tab-label">View Both</span>
+        </button>
       </nav>
+    </header>
 
-      <div class="nav-actions">
-        <div class="header-socials">
-          <a href="https://www.facebook.com/ejhay.delfin.7" target="_blank" rel="noopener noreferrer"
-            class="social-icon fb" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.instagram.com/e_j_h_a_y_18/?__pwa=1" target="_blank" rel="noopener noreferrer"
-            class="social-icon ig" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://x.com/ErikaDelfi75859" target="_blank" rel="noopener noreferrer" class="social-icon twi"
-            aria-label="X / Twitter">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-          <a href="https://www.threads.com/@e_j_h_a_y_18?xmt=AQF0qtIsYP9l2_vmXsbpGKbiyC8TojpEF8Z0xExmqtV5zZ8"
-            target="_blank" rel="noopener noreferrer" class="social-icon tre" aria-label="Threads">
-            <i class="fa-brands fa-threads"></i>
-          </a>
+    <!-- Combined Summary Banner (Visible in 'View Both' mode) -->
+    <section class="grand-summary-banner" id="grandSummaryBanner" style="display: none;">
+      <div class="grand-title">GRAND TOTAL EARNINGS</div>
+      <div class="grand-stats-row">
+        <div class="grand-stat">
+          <span class="grand-stat-label">Total Gralats:</span>
+          <span class="grand-stat-value" id="combinedGralats">0</span>
         </div>
-        <a href="#contact" class="btn btn-sm btn-primary header-cta">Hire Me</a>
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="grand-stat-divider">•</div>
+        <div class="grand-stat">
+          <span class="grand-stat-label">Total Trochus:</span>
+          <span class="grand-stat-value highlight" id="combinedTrochus">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SECTION 1: SHELL CALCULATOR                     -->
+    <!-- ============================================== -->
+    <section class="calc-section active" id="sectionShells" aria-labelledby="tabShells">
+      <div class="section-title-row">
+        <div class="section-heading">
+          <span class="section-icon">🐚</span>
+          <h2>Shells Calculator</h2>
+        </div>
+        <span class="section-tag">Sand • Scallop • Starfish • Aero</span>
+      </div>
+
+      <!-- Shell Hero Results Grid -->
+      <div class="hero-results-grid">
+        <!-- Shell Total Gralats -->
+        <div class="hero-result-card gralats-card">
+          <div class="hero-label">SHELL GRALATS</div>
+          <div class="hero-value-row">
+            <span class="currency-symbol gralats-symbol">⟡</span>
+            <span class="hero-value" id="totalGralatsCount">0</span>
+          </div>
+          <div class="hero-subtext">Sum from all shells</div>
+        </div>
+
+        <!-- Shell Total Trochus -->
+        <div class="hero-result-card trochus-card">
+          <div class="hero-label">SHELL TROCHUS</div>
+          <div class="hero-value-row">
+            <span class="currency-symbol trochus-symbol">⟡</span>
+            <span class="hero-value" id="totalTrochus">0</span>
+          </div>
+          <div class="hero-subtext ratio-wrapper">
+            <label for="inputRatio" class="ratio-label">Ratio:</label>
+            <div class="ratio-input-box">
+              <input type="number" id="inputRatio" name="ratio" step="any" min="0" value="0.00" placeholder="0.00"
+                autocomplete="off" aria-label="Shell Gralats to Trochus conversion ratio" />
+            </div>
+            <span class="ratio-unit">Gralats / Tro</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shell Inputs Grid -->
+      <form class="inputs-grid" id="shellCalcForm" onsubmit="return false;">
+        <!-- Sand -->
+        <div class="card-input-box" id="card-sand">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">🏖️</span>
+              <div>
+                <label for="inputSand" class="item-name">Sand</label>
+                <span class="multiplier-tag">× 5 Gralats</span>
+              </div>
+            </div>
+            <span class="item-subtotal" id="subSand">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputSand" data-step="-1"
+              aria-label="Decrease Sand by 1">−</button>
+            <input type="number" id="inputSand" name="sand" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputSand" data-step="1"
+              aria-label="Increase Sand by 1">+</button>
+          </div>
+        </div>
+
+        <!-- Scallop -->
+        <div class="card-input-box" id="card-scall">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">🐚</span>
+              <div>
+                <label for="inputScall" class="item-name">Scallop</label>
+                <span class="multiplier-tag">× 5 Gralats</span>
+              </div>
+            </div>
+            <span class="item-subtotal" id="subScall">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputScall" data-step="-1"
+              aria-label="Decrease Scallop by 1">−</button>
+            <input type="number" id="inputScall" name="scall" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputScall" data-step="1"
+              aria-label="Increase Scallop by 1">+</button>
+          </div>
+        </div>
+
+        <!-- Starfish -->
+        <div class="card-input-box" id="card-star">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">⭐</span>
+              <div>
+                <label for="inputStar" class="item-name">Starfish</label>
+                <span class="multiplier-tag highlight-gold">× 7 Gralats</span>
+              </div>
+            </div>
+            <span class="item-subtotal" id="subStar">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputStar" data-step="-1"
+              aria-label="Decrease Starfish by 1">−</button>
+            <input type="number" id="inputStar" name="star" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputStar" data-step="1"
+              aria-label="Increase Starfish by 1">+</button>
+          </div>
+        </div>
+
+        <!-- Aero -->
+        <div class="card-input-box" id="card-aero">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">🪸</span>
+              <div>
+                <label for="inputAero" class="item-name">Aero</label>
+                <span class="multiplier-tag">× 3 Gralats</span>
+              </div>
+            </div>
+            <span class="item-subtotal" id="subAero">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputAero" data-step="-1"
+              aria-label="Decrease Aero by 1">−</button>
+            <input type="number" id="inputAero" name="aero" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputAero" data-step="1"
+              aria-label="Increase Aero by 1">+</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Shell Actions -->
+      <div class="actions-row">
+        <button type="button" class="btn btn-secondary" id="resetBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+          Reset Shells
+        </button>
+
+        <button type="button" class="btn btn-primary" id="copyBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="copyBtnText">Copy Shell Total</span>
         </button>
       </div>
-    </div>
-  </header>
+    </section>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section" id="hero">
-      <div class="hero-bg-glow glow-1"></div>
-      <div class="hero-bg-glow glow-2"></div>
-      <div class="container hero-grid">
-        <div class="hero-content reveal-fade-left">
-          <div class="status-pill">
-            <span class="status-dot"></span>
-            <span>Available for Opportunities &amp; Projects</span>
-          </div>
-          <h1 class="hero-title">
-            Hi, I'm <span class="gradient-text">Erika E. Delfin</span>
-          </h1>
-          <h2 class="hero-subtitle">
-            <span class="typed-role">BSIT Student &amp; Aspiring Web Developer</span>
-          </h2>
-          <p class="hero-description">
-            Passionate about building modern, responsive websites and intuitive digital experiences.
-            Focused on improving skills in programming, problem-solving, and web system development.
-          </p>
+    <!-- ============================================== -->
+    <!-- SECTION 2: TRASH CALCULATOR                     -->
+    <!-- ============================================== -->
+    <section class="calc-section" id="sectionTrash" aria-labelledby="tabTrash">
+      <div class="section-title-row trash-heading-row">
+        <div class="section-heading">
+          <span class="section-icon">🗑️</span>
+          <h2>Trash Calculator</h2>
+        </div>
+        <span class="section-tag trash-tag">Bottles • Papers • News • Tires</span>
+      </div>
 
-          <div class="hero-buttons">
-            <a href="#projects" class="btn btn-primary">
-              <i class="fa-solid fa-rocket"></i> View My Work
-            </a>
-            <a href="#contact" class="btn btn-secondary">
-              <i class="fa-solid fa-paper-plane"></i> Let's Talk
-            </a>
+      <!-- Trash Hero Results Grid -->
+      <div class="hero-results-grid">
+        <!-- Trash Total Gralats -->
+        <div class="hero-result-card gralats-card trash-gralats-card">
+          <div class="hero-label">TRASH GRALATS</div>
+          <div class="hero-value-row">
+            <span class="currency-symbol gralats-symbol trash-symbol">⟡</span>
+            <span class="hero-value" id="totalTrashGralats">0</span>
           </div>
-
-          <div class="hero-quick-stats">
-            <div class="stat-item">
-              <span class="stat-number">BSIT</span>
-              <span class="stat-label">Undergrad Degree</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Dedication</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">Modern</span>
-              <span class="stat-label">Web Standards</span>
-            </div>
-          </div>
+          <div class="hero-subtext">Sum from all trash items</div>
         </div>
 
-        <div class="hero-visual reveal-fade-right">
-          <div class="profile-card-wrapper">
-            <div class="profile-card glass-panel">
-              <div class="profile-avatar">
-                <div class="avatar-ring"></div>
-                <div class="avatar-inner">
-                  <i class="fa-solid fa-code avatar-icon"></i>
-                </div>
-                <div class="badge-float badge-float-top">
-                  <i class="fa-brands fa-html5 text-orange"></i>
-                  <span>HTML5</span>
-                </div>
-                <div class="badge-float badge-float-mid">
-                  <i class="fa-brands fa-css3-alt text-blue"></i>
-                  <span>CSS3</span>
-                </div>
-                <div class="badge-float badge-float-bottom">
-                  <i class="fa-brands fa-js text-yellow"></i>
-                  <span>JavaScript</span>
-                </div>
-              </div>
-              <div class="profile-info">
-                <h3>Erika E. Delfin</h3>
-                <p class="profile-tag">Web Developer &amp; Tech Enthusiast</p>
-                <div class="profile-meta">
-                  <span><i class="fa-solid fa-graduation-cap"></i> BSIT Student</span>
-                  <span><i class="fa-solid fa-location-dot"></i> Philippines</span>
-                </div>
-              </div>
-              <div class="profile-socials">
-                <a href="https://www.facebook.com/ejhay.delfin.7" target="_blank" rel="noopener noreferrer"
-                  class="social-pill fb">
-                  <i class="fa-brands fa-facebook-f"></i> Facebook
-                </a>
-                <a href="https://www.instagram.com/e_j_h_a_y_18/?__pwa=1" target="_blank" rel="noopener noreferrer"
-                  class="social-pill ig">
-                  <i class="fa-brands fa-instagram"></i> Instagram
-                </a>
-              </div>
+        <!-- Trash Total Trochus -->
+        <div class="hero-result-card trochus-card trash-trochus-card">
+          <div class="hero-label">TRASH TROCHUS</div>
+          <div class="hero-value-row">
+            <span class="currency-symbol trochus-symbol">⟡</span>
+            <span class="hero-value" id="totalTrashTrochus">0</span>
+          </div>
+          <div class="hero-subtext ratio-wrapper">
+            <label for="inputTrashRatio" class="ratio-label">Ratio:</label>
+            <div class="ratio-input-box">
+              <input type="number" id="inputTrashRatio" name="trashRatio" step="any" min="0" value="3.7"
+                placeholder="3.7" autocomplete="off" aria-label="Trash Gralats to Trochus conversion ratio" />
             </div>
+            <span class="ratio-unit">Gralats / Tro</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="section about-section" id="about">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-badge"><i class="fa-solid fa-user"></i> Introduction</span>
-          <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
-          <p class="section-subtitle">A glimpse into my journey, mindset, and passion for technology.</p>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-bio-card glass-panel reveal-fade-left">
-            <h3 class="about-card-title"><i class="fa-solid fa-sparkles"></i> Who I Am</h3>
-            <p>
-              I am a Bachelor of Science in Information Technology (<strong>BSIT</strong>) student driven by a deep
-              curiosity for how software and web technologies shape our world.
-            </p>
-            <p>
-              My focus is on creating clean, responsive, and visually appealing user interfaces while sharpening my
-              foundations in programming logic, system design, and algorithmic problem-solving.
-            </p>
-            <p>
-              Whether it is architecting modular layouts or learning the latest web development frameworks, I embrace
-              every challenge as an opportunity to build better digital solutions.
-            </p>
-
-            <div class="highlights-grid">
-              <div class="highlight-box">
-                <div class="highlight-icon"><i class="fa-solid fa-laptop-code"></i></div>
-                <div>
-                  <h4>Responsive Design</h4>
-                  <p>Websites optimized for mobile, tablet, and desktop screens.</p>
-                </div>
-              </div>
-              <div class="highlight-box">
-                <div class="highlight-icon"><i class="fa-solid fa-layer-group"></i></div>
-                <div>
-                  <h4>Clean Code</h4>
-                  <p>Well-structured, semantic, and maintainable codebase.</p>
-                </div>
-              </div>
-              <div class="highlight-box">
-                <div class="highlight-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                <div>
-                  <h4>Continuous Learner</h4>
-                  <p>Constantly exploring new tools, libraries, and frameworks.</p>
-                </div>
-              </div>
-              <div class="highlight-box">
-                <div class="highlight-icon"><i class="fa-solid fa-bullseye"></i></div>
-                <div>
-                  <h4>Problem Solver</h4>
-                  <p>Analytical mindset for tackling real-world tech challenges.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="about-cards-column reveal-fade-right">
-            <div class="info-card glass-panel">
-              <div class="info-card-header">
-                <div class="info-card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <div>
-                  <span class="info-tag">Education</span>
-                  <h4>Bachelor of Science in Information Technology</h4>
-                </div>
-              </div>
-              <p class="info-card-body">
-                Currently pursuing a comprehensive BSIT curriculum covering programming, database management, web
-                systems, network fundamentals, and software development methodologies.
-              </p>
-            </div>
-
-            <div class="info-card glass-panel">
-              <div class="info-card-header">
-                <div class="info-card-icon"><i class="fa-solid fa-compass-drafting"></i></div>
-                <div>
-                  <span class="info-tag">Career Goal</span>
-                  <h4>Aspiring Full-Stack &amp; Frontend Developer</h4>
-                </div>
-              </div>
-              <p class="info-card-body">
-                Aiming to engineer high-performance web applications, collaborate with innovative tech teams, and
-                contribute to impactful software solutions.
-              </p>
-            </div>
-
-            <div class="info-card glass-panel">
-              <div class="info-card-header">
-                <div class="info-card-icon"><i class="fa-solid fa-heart"></i></div>
-                <div>
-                  <span class="info-tag">Personal Interests</span>
-                  <h4>Tech, Design &amp; Innovation</h4>
-                </div>
-              </div>
-              <p class="info-card-body">
-                Passionate about exploring modern UI aesthetics, interactive design patterns, and staying up to date
-                with the latest industry advancements.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section class="section skills-section" id="skills">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-badge"><i class="fa-solid fa-screwdriver-wrench"></i> My Toolkit</span>
-          <h2 class="section-title">Skills &amp; <span class="gradient-text">Technologies</span></h2>
-          <p class="section-subtitle">The tools, languages, and technical competencies I use to bring ideas to life.</p>
-        </div>
-
-        <div class="skills-grid">
-          <!-- Frontend Card -->
-          <div class="skill-category-card glass-panel reveal-fade-up">
-            <div class="skill-cat-header">
-              <div class="skill-cat-icon"><i class="fa-solid fa-palette"></i></div>
+      <!-- Trash Inputs Grid -->
+      <form class="inputs-grid" id="trashCalcForm" onsubmit="return false;">
+        <!-- Bottles -->
+        <div class="card-input-box" id="card-bottles">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">🍾</span>
               <div>
-                <h3>Frontend Development</h3>
-                <span>Core web technologies &amp; UI creation</span>
+                <label for="inputBottles" class="item-name">Bottles</label>
+                <span class="multiplier-tag">× 5 Gralats</span>
               </div>
             </div>
-            <div class="skill-tags">
-              <div class="skill-pill"><i class="fa-brands fa-html5 text-orange"></i> HTML5</div>
-              <div class="skill-pill"><i class="fa-brands fa-css3-alt text-blue"></i> CSS3</div>
-              <div class="skill-pill"><i class="fa-brands fa-js text-yellow"></i> JavaScript</div>
-              <div class="skill-pill"><i class="fa-solid fa-mobile-screen-button text-cyan"></i> Responsive Design</div>
-              <div class="skill-pill"><i class="fa-solid fa-table-cells text-purple"></i> Flexbox &amp; Grid</div>
-              <div class="skill-pill"><i class="fa-solid fa-wand-magic-sparkles text-pink"></i> Modern CSS Animations
-              </div>
-            </div>
+            <span class="item-subtotal" id="subBottles">0 Gralats</span>
           </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputBottles" data-step="-1"
+              aria-label="Decrease Bottles by 1">−</button>
+            <input type="number" id="inputBottles" name="bottles" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputBottles" data-step="1"
+              aria-label="Increase Bottles by 1">+</button>
+          </div>
+        </div>
 
-          <!-- Tools & Workflow Card -->
-          <div class="skill-category-card glass-panel reveal-fade-up">
-            <div class="skill-cat-header">
-              <div class="skill-cat-icon"><i class="fa-solid fa-gear"></i></div>
+        <!-- Papers -->
+        <div class="card-input-box" id="card-papers">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">📄</span>
               <div>
-                <h3>Tools &amp; Environment</h3>
-                <span>Development workflow &amp; utilities</span>
+                <label for="inputPapers" class="item-name">Papers</label>
+                <span class="multiplier-tag highlight-blue">× 4 Gralats</span>
               </div>
             </div>
-            <div class="skill-tags">
-              <div class="skill-pill"><i class="fa-brands fa-git-alt text-orange"></i> Git Version Control</div>
-              <div class="skill-pill"><i class="fa-brands fa-github text-white"></i> GitHub</div>
-              <div class="skill-pill"><i class="fa-solid fa-code text-blue"></i> VS Code</div>
-              <div class="skill-pill"><i class="fa-solid fa-bug text-cyan"></i> Chrome DevTools</div>
-              <div class="skill-pill"><i class="fa-solid fa-terminal text-green"></i> Command Line / PowerShell</div>
-              <div class="skill-pill"><i class="fa-solid fa-globe text-yellow"></i> Cross-Browser Testing</div>
-            </div>
+            <span class="item-subtotal" id="subPapers">0 Gralats</span>
           </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputPapers" data-step="-1"
+              aria-label="Decrease Papers by 1">−</button>
+            <input type="number" id="inputPapers" name="papers" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputPapers" data-step="1"
+              aria-label="Increase Papers by 1">+</button>
+          </div>
+        </div>
 
-          <!-- Core Competencies Card -->
-          <div class="skill-category-card glass-panel reveal-fade-up">
-            <div class="skill-cat-header">
-              <div class="skill-cat-icon"><i class="fa-solid fa-brain"></i></div>
+        <!-- Newspapers -->
+        <div class="card-input-box" id="card-news">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">📰</span>
               <div>
-                <h3>IT &amp; Core Strengths</h3>
-                <span>Problem solving &amp; system foundations</span>
+                <label for="inputNews" class="item-name">Newspapers</label>
+                <span class="multiplier-tag highlight-blue">× 4 Gralats</span>
               </div>
             </div>
-            <div class="skill-tags">
-              <div class="skill-pill"><i class="fa-solid fa-puzzle-piece text-yellow"></i> Problem Solving</div>
-              <div class="skill-pill"><i class="fa-solid fa-network-wired text-blue"></i> Web System Basics</div>
-              <div class="skill-pill"><i class="fa-solid fa-database text-green"></i> Database Fundamentals</div>
-              <div class="skill-pill"><i class="fa-solid fa-eye text-pink"></i> UI / UX Principles</div>
-              <div class="skill-pill"><i class="fa-solid fa-people-group text-purple"></i> Team Collaboration</div>
-              <div class="skill-pill"><i class="fa-solid fa-book-open text-orange"></i> Fast Learner</div>
-            </div>
+            <span class="item-subtotal" id="subNews">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputNews" data-step="-1"
+              aria-label="Decrease Newspapers by 1">−</button>
+            <input type="number" id="inputNews" name="news" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputNews" data-step="1"
+              aria-label="Increase Newspapers by 1">+</button>
           </div>
         </div>
+
+        <!-- Tires -->
+        <div class="card-input-box" id="card-tires">
+          <div class="item-header">
+            <div class="item-identity">
+              <span class="item-icon">🛞</span>
+              <div>
+                <label for="inputTires" class="item-name">Tires</label>
+                <span class="multiplier-tag highlight-gold">× 6 Gralats</span>
+              </div>
+            </div>
+            <span class="item-subtotal" id="subTires">0 Gralats</span>
+          </div>
+          <div class="input-control-group">
+            <button type="button" class="step-btn" data-target="inputTires" data-step="-1"
+              aria-label="Decrease Tires by 1">−</button>
+            <input type="number" id="inputTires" name="tires" min="0" step="1" placeholder="0" value=""
+              autocomplete="off" />
+            <button type="button" class="step-btn" data-target="inputTires" data-step="1"
+              aria-label="Increase Tires by 1">+</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Trash Actions -->
+      <div class="actions-row">
+        <button type="button" class="btn btn-secondary" id="resetTrashBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+          Reset Trash
+        </button>
+
+        <button type="button" class="btn btn-primary btn-trash-primary" id="copyTrashBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="copyTrashBtnText">Copy Trash Total</span>
+        </button>
       </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="section projects-section" id="projects">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-badge"><i class="fa-solid fa-folder-open"></i> Portfolio Showcase</span>
-          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-          <p class="section-subtitle">Explore some of my web development projects and interactive creations.</p>
-        </div>
-
-        <div class="projects-grid">
-          <!-- Project 1 -->
-          <div class="project-card glass-panel reveal-fade-up">
-            <div class="project-preview">
-              <div class="project-preview-mockup">
-                <div class="mockup-bar">
-                  <span class="mockup-dot dot-red"></span>
-                  <span class="mockup-dot dot-yellow"></span>
-                  <span class="mockup-dot dot-green"></span>
-                  <span class="mockup-url">erika-delfin.dev/portfolio</span>
-                </div>
-                <div class="mockup-content">
-                  <i class="fa-solid fa-laptop-code mockup-icon"></i>
-                  <h4>Personal Portfolio Website</h4>
-                  <p>Modern interactive developer showcase</p>
-                </div>
-              </div>
-              <div class="project-overlay">
-                <a href="#hero" class="btn btn-sm btn-primary">Live View</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-tags">
-                <span>HTML5</span>
-                <span>CSS3</span>
-                <span>JavaScript</span>
-                <span>Glassmorphism</span>
-              </div>
-              <h3 class="project-title">Interactive Developer Portfolio</h3>
-              <p class="project-desc">
-                A fully responsive personal portfolio designed with modern glassmorphism, animated gradient accents,
-                dynamic navigation, and smooth scroll interactions.
-              </p>
-              <div class="project-links">
-                <a href="#hero" class="project-link"><i class="fa-solid fa-eye"></i> Current Page</a>
-                <a href="https://x.com/ErikaDelfi75859" target="_blank" rel="noopener noreferrer"
-                  class="project-link"><i class="fa-brands fa-x-twitter"></i> Updates</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project 2 -->
-          <div class="project-card glass-panel reveal-fade-up">
-            <div class="project-preview">
-              <div class="project-preview-mockup">
-                <div class="mockup-bar">
-                  <span class="mockup-dot dot-red"></span>
-                  <span class="mockup-dot dot-yellow"></span>
-                  <span class="mockup-dot dot-green"></span>
-                  <span class="mockup-url">app.student-hub.dev</span>
-                </div>
-                <div class="mockup-content">
-                  <i class="fa-solid fa-list-check mockup-icon"></i>
-                  <h4>Student Task &amp; Study Hub</h4>
-                  <p>Productivity &amp; Coursework Tracker</p>
-                </div>
-              </div>
-              <div class="project-overlay">
-                <a href="#contact" class="btn btn-sm btn-primary">Learn More</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-tags">
-                <span>JavaScript</span>
-                <span>UI/UX</span>
-                <span>Local Storage</span>
-                <span>Responsive</span>
-              </div>
-              <h3 class="project-title">Student Task &amp; Study Dashboard</h3>
-              <p class="project-desc">
-                A web application concept tailored for IT students to manage assignments, track study deadlines, and
-                organize course schedules with responsive cards.
-              </p>
-              <div class="project-links">
-                <a href="#contact" class="project-link"><i class="fa-solid fa-circle-info"></i> Project Details</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project 3 -->
-          <div class="project-card glass-panel reveal-fade-up">
-            <div class="project-preview">
-              <div class="project-preview-mockup">
-                <div class="mockup-bar">
-                  <span class="mockup-dot dot-red"></span>
-                  <span class="mockup-dot dot-yellow"></span>
-                  <span class="mockup-dot dot-green"></span>
-                  <span class="mockup-url">web-landing.dev</span>
-                </div>
-                <div class="mockup-content">
-                  <i class="fa-solid fa-cubes mockup-icon"></i>
-                  <h4>Modern Landing Page Template</h4>
-                  <p>High-conversion UI components</p>
-                </div>
-              </div>
-              <div class="project-overlay">
-                <a href="#contact" class="btn btn-sm btn-primary">Learn More</a>
-              </div>
-            </div>
-            <div class="project-info">
-              <div class="project-tags">
-                <span>HTML5</span>
-                <span>CSS Grid</span>
-                <span>Micro-Animations</span>
-              </div>
-              <h3 class="project-title">Creative Tech Landing Page</h3>
-              <p class="project-desc">
-                A sleek, high-conversion landing page layout featuring animated hero banners, responsive feature grids,
-                interactive testimonial carousels, and contact modules.
-              </p>
-              <div class="project-links">
-                <a href="#contact" class="project-link"><i class="fa-solid fa-circle-info"></i> Project Details</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="section-header reveal-fade-up">
-          <span class="section-badge"><i class="fa-solid fa-envelope"></i> Get In Touch</span>
-          <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
-          <p class="section-subtitle">Have an opportunity, project idea, or just want to say hello? I'd love to hear
-            from you!</p>
-        </div>
-
-        <div class="contact-grid">
-          <!-- Contact Details -->
-          <div class="contact-info-panel glass-panel reveal-fade-left">
-            <h3 class="contact-panel-title">Contact Information</h3>
-            <p class="contact-panel-desc">
-              Feel free to reach out through the form or directly via my social media channels below.
-            </p>
-
-            <div class="contact-methods">
-              <div class="contact-method-item">
-                <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-                <div>
-                  <span class="method-label">Email Address</span>
-                  <a href="mailto:erikadelfin944@gmail.com" class="method-val method-link">erikadelfin944@gmail.com</a>
-                </div>
-              </div>
-
-              <div class="contact-method-item">
-                <div class="contact-icon"><i class="fa-solid fa-user-graduate"></i></div>
-                <div>
-                  <span class="method-label">Full Name</span>
-                  <span class="method-val">Erika E. Delfin</span>
-                </div>
-              </div>
-
-              <div class="contact-method-item">
-                <div class="contact-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <div>
-                  <span class="method-label">Degree Program</span>
-                  <span class="method-val">Bachelor of Science in Information Technology</span>
-                </div>
-              </div>
-
-              <div class="contact-method-item">
-                <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div>
-                  <span class="method-label">Location</span>
-                  <span class="method-val">Philippines</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="contact-socials-wrapper">
-              <h4>Follow &amp; Connect</h4>
-              <div class="socials-large">
-                <a href="https://www.facebook.com/ejhay.delfin.7" target="_blank" rel="noopener noreferrer"
-                  class="social-btn fb" aria-label="Facebook">
-                  <i class="fa-brands fa-facebook-f"></i>
-                  <span>Facebook</span>
-                </a>
-                <a href="https://www.instagram.com/e_j_h_a_y_18/?__pwa=1" target="_blank" rel="noopener noreferrer"
-                  class="social-btn ig" aria-label="Instagram">
-                  <i class="fa-brands fa-instagram"></i>
-                  <span>Instagram</span>
-                </a>
-                <a href="https://x.com/ErikaDelfi75859" target="_blank" rel="noopener noreferrer" class="social-btn twi"
-                  aria-label="X / Twitter">
-                  <i class="fa-brands fa-x-twitter"></i>
-                  <span>X / Twitter</span>
-                </a>
-                <a href="https://www.threads.com/@e_j_h_a_y_18?xmt=AQF0qtIsYP9l2_vmXsbpGKbiyC8TojpEF8Z0xExmqtV5zZ8"
-                  target="_blank" rel="noopener noreferrer" class="social-btn tre" aria-label="Threads">
-                  <i class="fa-brands fa-threads"></i>
-                  <span>Threads</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Form -->
-          <div class="contact-form-panel glass-panel reveal-fade-right">
-            <h3 class="contact-panel-title">Send a Message</h3>
-            <form id="contact-form" class="contact-form" action="https://formsubmit.co/erikadelfin944@gmail.com"
-              method="POST">
-              <!-- FormSubmit Configuration -->
-              <input type="hidden" name="_captcha" value="false">
-              <input type="hidden" name="_subject" value="New Message from Portfolio Website!">
-              <input type="hidden" name="_template" value="table">
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="contact-name">Your Name</label>
-                  <div class="input-wrapper">
-                    <i class="fa-solid fa-user input-icon"></i>
-                    <input type="text" id="contact-name" name="name" placeholder="Your Name" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="contact-email">Your Email</label>
-                  <div class="input-wrapper">
-                    <i class="fa-solid fa-envelope input-icon"></i>
-                    <input type="email" id="contact-email" name="email" placeholder="you@example.com" required>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contact-subject">Subject</label>
-                <div class="input-wrapper">
-                  <i class="fa-solid fa-tag input-icon"></i>
-                  <input type="text" id="contact-subject" name="subject" placeholder="Project Inquiry / Hello" required>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="contact-message">Message</label>
-                <div class="input-wrapper textarea-wrapper">
-                  <i class="fa-solid fa-message input-icon"></i>
-                  <textarea id="contact-message" name="message" rows="5" placeholder="Write your message here..."
-                    required></textarea>
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary btn-submit" id="submit-btn">
-                <span>Send Message</span>
-                <i class="fa-solid fa-paper-plane"></i>
-              </button>
-
-              <div class="form-feedback" id="form-feedback"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Scroll-to-top floating button -->
+    <button type="button" class="scroll-top-btn" id="scrollTopBtn" title="Back to top" aria-label="Back to top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-top">
-        <a href="#hero" class="nav-logo">
-          <span class="logo-accent">&lt;</span>Erika<span class="logo-accent">/&gt;</span>
-        </a>
-        <p class="footer-tagline">Building modern, responsive web experiences with passion &amp; precision.</p>
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/ejhay.delfin.7" target="_blank" rel="noopener noreferrer"
-            class="social-icon fb" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/e_j_h_a_y_18/?__pwa=1" target="_blank" rel="noopener noreferrer"
-            class="social-icon ig" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://x.com/ErikaDelfi75859" target="_blank" rel="noopener noreferrer" class="social-icon twi"
-            aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.threads.com/@e_j_h_a_y_18?xmt=AQF0qtIsYP9l2_vmXsbpGKbiyC8TojpEF8Z0xExmqtV5zZ8"
-            target="_blank" rel="noopener noreferrer" class="social-icon tre" aria-label="Threads"><i
-              class="fa-brands fa-threads"></i></a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Erika E. Delfin. All rights reserved.</p>
-        <a href="#hero" class="back-to-top" id="back-to-top" aria-label="Back to top">
-          <i class="fa-solid fa-arrow-up"></i>
-        </a>
-      </div>
-    </div>
-  </footer>
+  <script src="script.js"></script>
 </body>
 
 </html>
